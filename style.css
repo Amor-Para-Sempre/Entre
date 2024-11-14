@@ -1,0 +1,112 @@
+body {
+    width: 99%;
+    padding: 100px 0px;
+    background-color: #030C2B;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: auto;
+    min-width: 840px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.carrossel-geral, .contador-container {
+    width: 400px;
+    color: white;
+    margin: auto;
+}
+
+/* Estilo básico do carrossel */
+
+h1 {
+    font-weight: bolder;
+    font-size: 2.5em;
+    font-family: "Playwrite DK Loopet", cursive;
+    text-align: center;
+    color: #FE0F0E;
+}
+
+h2 {
+    font-family: "Merienda", cursive;
+    font-weight: bolder;
+    font-size: 2em;
+    text-align: center;
+}
+
+p {
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.carrossel-container {
+    position: relative;
+    width: 400px;
+    height: 500px;
+    margin: auto;
+    overflow: hidden;
+}
+
+.carrossel-imagens {
+    display: flex;
+    transition: transform 1s ease-in-out;
+}
+
+.carrossel-imagens img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* Estilo das bolinhas de contador */
+.contador {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: -6px;
+}
+
+.bolinha {
+    width: 12px;
+    height: 12px;
+    margin: 0 5px;
+    border-radius: 50%;
+    background-color: #ccc;
+    transition: background-color 0.8s;
+}
+
+.bolinha.active {
+    background-color: #FE0F0E;
+}
+
+.valor {
+    width: 400px;
+    height: 60px;
+    align-items: center;
+    justify-content: center;
+    display: grid;
+    margin: 10px auto;
+    align-content: center;
+    text-align: center;
+    line-height: 0.5;
+    font-size: 1.6em;
+    background-color: #030C2B;
+    color: white;
+    box-shadow: 0px 0px 30px #c93c8e;
+}
+
+
+span {
+    font-weight: bold;
+}
+
+@media screen and (max-width: 839px) {
+    .container {
+        display: grid;
+        grid-template-columns: 1fr;
+        min-width: 400px;
+    }
+}

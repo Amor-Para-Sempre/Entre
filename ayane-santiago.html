@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&family=Playwrite+DK+Loopet:wght@100..400&family=Rouge+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&family=Rouge+Script&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="carrossel-geral">
+            <div class="carrossel-container">
+                <div class="carrossel-imagens" id="carrosselImagens">
+                    <!-- As imagens serão carregadas aqui pelo JavaScript -->
+                </div>
+                <button class="botao-prev" id="prevBtn"></button>
+                <button class="botao-next" id="nextBtn"></button>
+            </div>
+
+            <!-- Contador de bolinhas -->
+            <div class="contador" id="contador"></div>
+          
+
+            <h1>Ayane & Santiago</h1>
+        </div>
+
+        <div class="contador-container">
+            <p>Meu amor, você foi uma das melhores coisas que me aconteceu. Com você, nem preciso de muita coisa, só estar perto um do outro já faz tudo fazer sentido. É incrível como, com você, tudo parece se encaixar. Gosto da sua sinceridade, da sua forma de ver o mundo e de como você me faz querer ser uma pessoa melhor. Só queria que soubesse que, a cada dia que passa, fico mais apaixonado por você.</p>
+            <p>Minha pururuca❤️😍</p>
+            
+            <h2>Juntos há</h2>
+            <p>
+                <div class="valor"><span id="anos">0</span><br> anos</div>
+                <div class="valor"><span id="meses">0</span><br> meses</div>
+                <div class="valor"><span id="dias">0</span><br> dias</div>
+                <div class="valor"><span id="horas">0</span><br> horas</div>
+                <div class="valor"><span id="minutos">0</span><br> minutos</div>
+                <div class="valor"><span id="segundos">0</span><br> segundos</div>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        //**************    CARROSSEL DE IMAGENS   **************\\
+        // Diretório das imagens
+        const diretorioImagens = 'imagens/ayane-santiago/';
+        const quantidadeImagens = 12; // Quantidade de imagens no diretório
+
+        // Função para carregar as imagens no carrossel
+        function carregarImagens() {
+            const carrosselImagens = document.getElementById('carrosselImagens');
+            const contador = document.getElementById('contador');
+            
+            // Carregar as imagens
+            for (let i = 1; i <= quantidadeImagens; i++) {
+                const img = document.createElement('img');
+                img.src = `${diretorioImagens}img${i}.jpeg`;  // Nome das imagens: img1.jpg, img2.jpg, ...
+                img.alt = `Imagem ${i}`;
+                carrosselImagens.appendChild(img);
+            }
+            
+            // Clonar a primeira imagem no final para criar o loop infinito
+            const primeiraImagem = carrosselImagens.firstElementChild.cloneNode();
+            carrosselImagens.appendChild(primeiraImagem);
+            
+            // Adicionar as bolinhas de contador
+            for (let i = 0; i < quantidadeImagens; i++) {
+                const bolinha = document.createElement('div');
+                bolinha.classList.add('bolinha');
+                contador.appendChild(bolinha);
+            }
+        }
+
+        // Função para mover para a próxima imagem
+        let indiceAtual = 0;
+        function proximaImagem() {
+            const carrosselImagens = document.getElementById('carrosselImagens');
+            const imagens = carrosselImagens.children;
+
+            // Atualizar o índice, garantindo que seja circular
+            indiceAtual = (indiceAtual + 1) % imagens.length;
+            
+            // Quando atingir a última imagem (imagem clonada), reiniciar o carrossel de forma invisível
+            if (indiceAtual === imagens.length - 1) {
+                setTimeout(() => {
+                    carrosselImagens.style.transition = 'none'; // Desativar transição para um "salto"
+                    carrosselImagens.style.transform = `translateX(0%)`; // Voltar ao início
+                    indiceAtual = 0; // Reiniciar o índice
+                }, 1000); // Esperar um pouco para que a transição atual termine
+            } else {
+                carrosselImagens.style.transition = 'transform 1s ease-in-out'; // Ativar a transição suave
+            }
+
+            // Aplicar a transição para mover para a próxima imagem
+            carrosselImagens.style.transform = `translateX(-${indiceAtual * 100}%)`;
+
+            // Atualizar as bolinhas
+            atualizarBolinhas();
+        }
+
+        // Função para mover para a imagem anterior
+        function imagemAnterior() {
+            const carrosselImagens = document.getElementById('carrosselImagens');
+            const imagens = carrosselImagens.children;
+
+            // Atualizar o índice, garantindo que seja circular
+            indiceAtual = (indiceAtual - 1 + imagens.length) % imagens.length;
+            carrosselImagens.style.transform = `translateX(-${indiceAtual * 100}%)`;
+
+            // Atualizar as bolinhas
+            atualizarBolinhas();
+        }
+
+        // Atualizar as bolinhas de contador
+        function atualizarBolinhas() {
+            const bolinhas = document.querySelectorAll('.bolinha');
+            indiceBolinha = indiceAtual - 1
+            bolinhas.forEach((bolinha, index) => {
+                bolinha.classList.toggle('active', index === indiceBolinha);
+            });
+        }
+
+        // Navegação manual (anterior e próximo)
+        document.getElementById('nextBtn').addEventListener('click', proximaImagem);
+        document.getElementById('prevBtn').addEventListener('click', imagemAnterior);
+
+        // Configurar o carrossel para avançar automaticamente a cada 3 segundos
+        setInterval(proximaImagem, 3000);
+
+        // Carregar as imagens quando a página for carregada
+        window.onload = carregarImagens;
+
+        // Função para tratar o swipe (arrastar para os lados)
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const carrosselContainer = document.querySelector('.carrossel-container');
+        carrosselContainer.addEventListener('touchstart', (event) => {
+            touchStartX = event.changedTouches[0].screenX;
+        });
+
+        carrosselContainer.addEventListener('touchend', (event) => {
+            touchEndX = event.changedTouches[0].screenX;
+
+            if (touchStartX - touchEndX > 50) {
+                proximaImagem(); // Deslizar para a esquerda
+            } else if (touchEndX - touchStartX > 50) {
+                imagemAnterior(); // Deslizar para a direita
+            }
+        });
+
+
+        //**************    CONTADOR DE TEMPO   **************\\
+        // Definir a data e hora de referência (25/12/2023 15:45:32)
+        const dataReferencia = new Date(2023, 11, 25, 0, 0, 0); // Meses são baseados em 0 (novembro é 11)
+
+        // Função para atualizar o contador de tempo
+        function atualizarContador() {
+            const agora = new Date();
+            const tempoDecorrido = agora - dataReferencia; // Em milissegundos
+
+            // Calcular a diferença em anos, meses, dias, horas, minutos e segundos
+            const anos = Math.floor(tempoDecorrido / (1000 * 60 * 60 * 24 * 365));
+            const meses = Math.floor(tempoDecorrido / (1000 * 60 * 60 * 24 * 30)) % 12;
+            const dias = Math.floor(tempoDecorrido / (1000 * 60 * 60 * 24)) % 30;
+            const horas = Math.floor(tempoDecorrido / (1000 * 60 * 60)) % 24;
+            const minutos = Math.floor(tempoDecorrido / (1000 * 60)) % 60;
+            const segundos = Math.floor(tempoDecorrido / 1000) % 60;
+
+            // Atualizar os valores nos spans
+            document.getElementById("anos").textContent = anos;
+            document.getElementById("meses").textContent = meses;
+            document.getElementById("dias").textContent = dias;
+            document.getElementById("horas").textContent = horas;
+            document.getElementById("minutos").textContent = minutos;
+            document.getElementById("segundos").textContent = segundos;
+        }
+
+        // Chamar a função para atualizar o contador a cada segundo
+        setInterval(atualizarContador, 1000);
+
+        // Chamar a função uma vez para garantir que os valores estejam atualizados ao carregar a página
+        atualizarContador();
+
+
+    </script>
+</body>
+</html>
