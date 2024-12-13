@@ -8,7 +8,7 @@ function atualizarContador() {
 
     // Calcular a diferença em anos, meses, dias, horas, minutos e segundos
     const anos = Math.floor(tempoDecorrido / (1000 * 60 * 60 * 24 * 365));
-    const meses = Math.floor(tempoDecorrido / (1000 * 60 * 60 * 24 * 30)) % 12;
+    const meses = Math.floor(tempoDecorrido / (1000 * 60 * 60 * 24 * 30.416666667)) % 12;
     const dias = Math.floor(tempoDecorrido / (1000 * 60 * 60 * 24)) % 30;
     const horas = Math.floor(tempoDecorrido / (1000 * 60 * 60)) % 24;
     const minutos = Math.floor(tempoDecorrido / (1000 * 60)) % 60;
