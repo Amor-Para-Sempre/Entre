@@ -1,5 +1,5 @@
 // Definir a data e hora de referência (25/12/2023 15:45:32)
-const dataReferencia = new Date(2023, 11, 25, 1, 0, 0); // Meses são baseados em 0 (novembro é 11)
+const dataReferencia = new Date(2023, 11, 25, 0, 0, 0); // Meses são baseados em 0 (novembro é 11)
 
 // Função para atualizar o contador de tempo
 function atualizarContador() {
