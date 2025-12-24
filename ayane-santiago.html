@@ -6,43 +6,99 @@
     <title>Ayane & Santiago</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&family=Playwrite+DK+Loopet:wght@100..400&family=Rouge+Script&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&family=Playwrite+DK+Loopet:wght@100..400&family=Rouge+Script&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&family=Rouge+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;500&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="./imagens/coracao.webp" type="image/x-icon">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
-<body>
-    <div class="container">
-        <div class="carrossel-geral">
-            <div class="carrossel-container">
-                <div class="carrossel-imagens" id="carrosselImagens">
-                    <!-- As imagens serão carregadas aqui pelo JavaScript -->
+<body class="bg-gradient-to-br from-gray-900 to-purple-900 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 py-12">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold text-white font-dancing">
+                <span class="text-pink-400">Ayane</span> & <span class="text-blue-300">Santiago</span>
+            </h1>
+            <p class="text-xl text-gray-300 mt-4 font-montserrat">Nossa história de amor em momentos</p>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div class="carrossel-geral border-radius-2xl overflow-hidden">
+                <div class="carrossel-container">
+                    <div class="carrossel-imagens" id="carrosselImagens">
+                        <!-- As imagens serão carregadas aqui pelo JavaScript -->
+                    </div>
+                    <button class="botao-prev" id="prevBtn"></button>
+                    <button class="botao-next" id="nextBtn"></button>
                 </div>
-                <button class="botao-prev" id="prevBtn"></button>
-                <button class="botao-next" id="nextBtn"></button>
+
+                <!-- Contador de bolinhas -->
+                <div class="contador" id="contador"></div>
             </div>
 
-            <!-- Contador de bolinhas -->
-            <div class="contador" id="contador"></div>
-          
+            <section class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-xl">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl text-pink-300 mt-4 font-dancing">Minha pururuca❤️😍</h2>
+                    <p class="mt-2 text-lg text-gray-200 font-montserrat leading-relaxed">
+                        Se um minhão te amou, eu sou um deles.
+                    </p>
+                    <p class="mt-2 text-lg text-gray-200 font-montserrat leading-relaxed">
+                        Se alguem te amou, foi eu!
+                    </p>
 
-            <h1>Ayane & Santiago</h1>
-        </div>
+                    <p class="mt-2 text-lg text-gray-200 font-montserrat leading-relaxed">
+                        Se ninguém te amou, saiba que eu estou morto.
+                    </p>
+                    <br>
+                    <p class="text-lg text-gray-200 font-montserrat leading-relaxed">
+                         O meu amor por você e uma coisa que nem eu sei explicar, é algo tão grande, tão real, que você nem imagina, Na sua ausência, eu me sinto perdido, completamente sem vontade de viver. No entanto, em sua presença, eu fico feliz, completamente alegre. A vida ganha tonalidade alegre e boa. Eu só quero que saiba que você foi uma das poucas verdadeiramente boas que a vida me deu
+                    </p>
+                    <!--p>
+                        Meu amor, você foi uma das melhores coisas que me aconteceu. Com você, nem preciso de muita coisa, só estar perto um do outro já faz tudo fazer sentido. É incrível como, com você, tudo parece se encaixar. Gosto da sua sinceridade, da sua forma de ver o mundo e de como você me faz querer ser uma pessoa melhor. Só queria que soubesse que, a cada dia que passa, fico mais apaixonado por você.
+                    </p-->
 
-        <div class="contador-container">
-            <p>Meu amor, você foi uma das melhores coisas que me aconteceu. Com você, nem preciso de muita coisa, só estar perto um do outro já faz tudo fazer sentido. É incrível como, com você, tudo parece se encaixar. Gosto da sua sinceridade, da sua forma de ver o mundo e de como você me faz querer ser uma pessoa melhor. Só queria que soubesse que, a cada dia que passa, fico mais apaixonado por você.</p>
-            <p>Minha pururuca❤️😍</p>
-            
-            <h2>Juntos há</h2>
-            <p>
-                <div class="valor"><span id="anos">0</span><br> anos</div>
-                <div class="valor"><span id="meses">0</span><br> meses</div>
-                <div class="valor"><span id="dias">0</span><br> dias</div>
-                <div class="valor"><span id="horas">0</span><br> horas</div>
-                <div class="valor"><span id="minutos">0</span><br> minutos</div>
-                <div class="valor"><span id="segundos">0</span><br> segundos</div>
-            </p>
-        </div>
+                    <h3 class="text-2xl font-playfair text-blue-200 mb-6">Juntos há</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div class="time-block bg-gradient-to-br from-pink-500/20 to-purple-600/20 rounded-xl p-4 backdrop-blur-sm">
+                            <span  class="text-4xl font-bold text-white" id="anos">0</span>
+                            <p class="text-sm text-gray-300 mt-1">Anos</p>
+                        </div>
+                        <div class="time-block bg-gradient-to-br from-pink-500/20 to-purple-600/20 rounded-xl p-4 backdrop-blur-sm">
+                            <span  class="text-4xl font-bold text-white" id="meses">0</span>
+                            <p class="text-sm text-gray-300 mt-1">Meses</p>
+                        </div>
+                        <div class="time-block bg-gradient-to-br from-pink-500/20 to-purple-600/20 rounded-xl p-4 backdrop-blur-sm">
+                            <span  class="text-4xl font-bold text-white" id="dias">0</span>
+                            <p class="text-sm text-gray-300 mt-1">Dias</p>
+                        </div>
+                        <div class="time-block bg-gradient-to-br from-pink-500/20 to-purple-600/20 rounded-xl p-4 backdrop-blur-sm">
+                            <span  class="text-4xl font-bold text-white" id="horas">0</span>
+                            <p class="text-sm text-gray-300 mt-1">Horas</p>
+                        </div>
+                        <div class="time-block bg-gradient-to-br from-pink-500/20 to-purple-600/20 rounded-xl p-4 backdrop-blur-sm">
+                            <span  class="text-4xl font-bold text-white" id="minutos">0</span>
+                            <p class="text-sm text-gray-300 mt-1">Minutos</p>
+                        </div>
+                        <div class="time-block bg-gradient-to-br from-pink-500/20 to-purple-600/20 rounded-xl p-4 backdrop-blur-sm">
+                            <span  class="text-4xl font-bold text-white" id="segundos">0</span>
+                            <p class="text-sm text-gray-300 mt-1">Segundos</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <audio id="audio" loop>
+            <source src="./audio.mp3" type="audio/mp3">
+            Seu navegador não suporta o elemento de áudio.
+        </audio>
     </div>
+
+    <!-- Floating Hearts -->
+    <div class="floating-hearts"></div>
 
     <script>
         //**************    CARROSSEL DE IMAGENS   **************\\
@@ -208,6 +264,44 @@
         
         // Chamar a função uma vez para garantir que os valores estejam atualizados ao carregar a página
         atualizarContador();
+
+        // Create floating hearts
+        function createFloatingHearts() {
+            const container = document.querySelector('.floating-hearts');
+            const heartCount = 100;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.className = 'absolute text-pink-400 opacity-70';
+                heart.style.left = `${Math.random() * 95}%`;
+                heart.style.top = `${Math.random() * 95}%`;
+                heart.style.fontSize = `${Math.random() * 20 + 10}px`;
+                heart.style.animation = `float ${Math.random() * 1 + 1}s linear infinite`;
+                heart.style.animationDelay = `${Math.random() * 1}s`;
+                container.appendChild(heart);
+            }
+        }
+        
+        createFloatingHearts();
+
+
+        //**************    AUDIO   **************\\
+        const audio = document.getElementById('audio');
+
+        function iniciarAudio() {
+            audio.play().catch(err => {
+                console.log('Autoplay bloqueado:', err);
+            });
+
+            // Remove o evento depois de tocar
+            document.removeEventListener('click', iniciarAudio);
+            document.removeEventListener('touchstart', iniciarAudio);
+        }
+
+        // Espera interação do usuário
+        document.addEventListener('click', iniciarAudio);
+        document.addEventListener('touchstart', iniciarAudio);
 
     </script>
 </body>

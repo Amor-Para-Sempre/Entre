@@ -1,0 +1,198 @@
+/* --- Configurações Gerais --- */
+body {
+    font-family: "Merienda", cursive;
+    background: linear-gradient(135deg, #030C2B 0%, #1A0A1F 100%);
+    color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2.5rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* --- Estilo dos Cards --- */
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-family: "Playwrite DK Loopet", cursive;
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    color: #FE0F0E;
+    text-shadow: 0 0 15px rgba(254, 15, 14, 0.7);
+    margin: 1rem 0;
+    text-align: center;
+}
+
+h2 {
+    font-family: "Merienda", cursive;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #fff;
+}
+
+/* --- Carrossel de Imagens --- */
+.carrossel-card {
+    gap: 1rem;
+}
+
+.carrossel-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 2 / 3;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.carrossel-imagens {
+    display: flex;
+    height: 100%;
+    transition: transform 0.7s ease-in-out;
+}
+
+.carrossel-imagens img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.botao-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carrossel-container:hover .botao-nav {
+    opacity: 1;
+}
+
+.botao-nav:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+/* Indicadores (bolinhas) */
+.indicadores {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.bolinha {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: background-color 0.4s ease, transform 0.4s ease;
+}
+
+.bolinha.active {
+    background-color: #FE0F0E;
+    transform: scale(1.2);
+}
+
+/* --- Card do Contador --- */
+.contador-card {
+    justify-content: center;
+    gap: 2rem;
+}
+
+.mensagem p {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    line-height: 1.6;
+    text-align: center;
+    max-width: 500px;
+}
+
+.mensagem .assinatura {
+    font-family: "Rouge Script", cursive;
+    font-size: clamp(1.5rem, 3vw, 1.8rem);
+    color: #f8b4d9;
+    margin-top: 1rem;
+}
+
+.contador-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+.tempo-unidade {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 0.9rem;
+    box-shadow: 0 0 20px rgba(201, 60, 142, 0.3);
+}
+
+.tempo-unidade span {
+    display: block;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* --- Responsividade --- */
+@media screen and (max-width: 920px) {
+    .container {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    .card {
+        padding: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .contador-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    h1 { font-size: 1.8rem; }
+    h2 { font-size: 1.4rem; }
+}

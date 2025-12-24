@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayane & Santiago</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&family=Playwrite+DK+Loopet:wght@100..400&family=Rouge+Script&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="./imagens/coracao.webp" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <!-- Card do Carrossel -->
+        <div class="card carrossel-card">
+            <div class="carrossel-container">
+                <div class="carrossel-imagens" id="carrosselImagens">
+                    <!-- Imagens carregadas via JS -->
+                </div>
+                <button class="botao-nav prev" id="prevBtn">&#10094;</button>
+                <button class="botao-nav next" id="nextBtn">&#10095;</button>
+            </div>
+            <div class="indicadores" id="indicadores">
+                <!-- Indicadores (bolinhas ) carregados via JS -->
+            </div>
+            <h1>Ayane & Santiago</h1>
+        </div>
+
+        <!-- Card do Contador -->
+        <div class="card contador-card">
+            <div class="mensagem">
+                <p>Meu amor, você foi uma das melhores coisas que me aconteceu. Com você, nem preciso de muita coisa, só estar perto um do outro já faz tudo fazer sentido. É incrível como, com você, tudo parece se encaixar. Gosto da sua sinceridade, da sua forma de ver o mundo e de como você me faz querer ser uma pessoa melhor. Só queria que soubesse que, a cada dia que passa, fico mais apaixonado por você.</p>
+                <p class="assinatura">Minha pururuca❤️😍</p>
+            </div>
+            
+            <h2>Juntos há</h2>
+            <div class="contador-grid">
+                <div class="tempo-unidade"><span id="anos">0</span> anos</div>
+                <div class="tempo-unidade"><span id="meses">0</span> meses</div>
+                <div class="tempo-unidade"><span id="dias">0</span> dias</div>
+                <div class="tempo-unidade"><span id="horas">0</span> horas</div>
+                <div class="tempo-unidade"><span id="minutos">0</span> minutos</div>
+                <div class="tempo-unidade"><span id="segundos">0</span> segundos</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            //**************    CARROSSEL DE IMAGENS   **************\\
+            const carrosselImagens = document.getElementById('carrosselImagens');
+            const indicadoresContainer = document.getElementById('indicadores');
+            const diretorioImagens = 'imagens/ayane-santiago/';
+            const quantidadeImagens = 14;
+            let indiceAtual = 0;
+            let autoPlayInterval;
+
+            function carregarImagens() {
+                for (let i = 1; i <= quantidadeImagens; i++) {
+                    const img = document.createElement('img');
+                    img.src = `${diretorioImagens}img${i}.jpeg`;
+                    img.alt = `Imagem ${i}`;
+                    carrosselImagens.appendChild(img);
+
+                    const bolinha = document.createElement('div');
+                    bolinha.classList.add('bolinha');
+                    bolinha.addEventListener('click', () => irParaImagem(i - 1));
+                    indicadoresContainer.appendChild(bolinha);
+                }
+                atualizarIndicadores();
+            }
+
+            function atualizarCarrossel(transicao = true) {
+                const offset = -indiceAtual * 100;
+                carrosselImagens.style.transition = transicao ? 'transform 0.7s ease-in-out' : 'none';
+                carrosselImagens.style.transform = `translateX(${offset}%)`;
+                atualizarIndicadores();
+            }
+
+            function atualizarIndicadores() {
+                const bolinhas = document.querySelectorAll('.bolinha');
+                bolinhas.forEach((bolinha, index) => {
+                    bolinha.classList.toggle('active', index === indiceAtual);
+                });
+            }
+
+            function proximaImagem() {
+                indiceAtual = (indiceAtual + 1) % quantidadeImagens;
+                atualizarCarrossel();
+            }
+
+            function imagemAnterior() {
+                indiceAtual = (indiceAtual - 1 + quantidadeImagens) % quantidadeImagens;
+                atualizarCarrossel();
+            }
+            
+            function irParaImagem(index) {
+                indiceAtual = index;
+                atualizarCarrossel();
+                resetAutoPlay();
+            }
+
+            function resetAutoPlay() {
+                clearInterval(autoPlayInterval);
+                autoPlayInterval = setInterval(proximaImagem, 4000);
+            }
+
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                proximaImagem();
+                resetAutoPlay();
+            });
+
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                imagemAnterior();
+                resetAutoPlay();
+            });
+
+            let touchStartX = 0;
+            carrosselImagens.addEventListener('touchstart', (e) => touchStartX = e.changedTouches[0].screenX);
+            carrosselImagens.addEventListener('touchend', (e) => {
+                const touchEndX = e.changedTouches[0].screenX;
+                if (touchStartX - touchEndX > 50) proximaImagem();
+                else if (touchEndX - touchStartX > 50) imagemAnterior();
+                resetAutoPlay();
+            });
+
+            carregarImagens();
+            resetAutoPlay();
+
+            //**************    CONTADOR DE TEMPO   **************\\
+            const dataReferencia = new Date(2023, 11, 25, 0, 0, 0);
+
+            function atualizarContador() {
+                const agora = new Date();
+                let anos = agora.getFullYear() - dataReferencia.getFullYear();
+                let meses = agora.getMonth() - dataReferencia.getMonth();
+                let dias = agora.getDate() - dataReferencia.getDate();
+                let horas = agora.getHours() - dataReferencia.getHours();
+                let minutos = agora.getMinutes() - dataReferencia.getMinutes();
+                let segundos = agora.getSeconds() - dataReferencia.getSeconds();
+
+                if (segundos < 0) { segundos += 60; minutos--; }
+                if (minutos < 0) { minutos += 60; horas--; }
+                if (horas < 0) { horas += 24; dias--; }
+                if (dias < 0) {
+                    const mesAnterior = new Date(agora.getFullYear(), agora.getMonth(), 0);
+                    dias += mesAnterior.getDate();
+                    meses--;
+                }
+                if (meses < 0) { meses += 12; anos--; }
+
+                document.getElementById("anos").textContent = anos;
+                document.getElementById("meses").textContent = meses;
+                document.getElementById("dias").textContent = dias;
+                document.getElementById("horas").textContent = horas;
+                document.getElementById("minutos").textContent = minutos;
+                document.getElementById("segundos").textContent = segundos;
+            }
+            setInterval(atualizarContador, 1000);
+            atualizarContador();
+        });
+    </script>
+</body>
+</html>
