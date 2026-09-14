@@ -1,0 +1,416 @@
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    overscroll-behavior: none;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    color: #5b2636;
+}
+
+/* =====================================
+TELA INICIAL
+===================================== */
+
+#start-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    width: 100%;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background:
+    radial-gradient(
+        circle at 50% 20%,
+        rgba(255,255,255,0.95) 0%,
+        rgba(255,238,243,0.8) 35%,
+        rgba(247,207,218,0.95) 100%
+    );
+    transition:
+    opacity 0.45s ease,
+    transform 0.45s ease;
+}
+
+/*
+
+* Pequenos detalhes decorativos
+  */
+
+#start-screen::before, #start-screen::after {
+    content: "♡";
+    position: absolute;
+    color: rgba(173, 72, 104, 0.336);
+    font-family: Georgia, serif;
+    pointer-events: none;
+}
+
+#start-screen::before {
+    font-size: 150px;
+    top: 8%;
+    left: -45px;
+    transform: rotate(-15deg);
+}
+
+#start-screen::after {
+    font-size: 110px;
+    bottom: 8%;
+    right: -25px;
+    transform: rotate(15deg);
+}
+
+/* =====================================
+CARROSSEL DE FOTOS
+===================================== */
+
+.marquee {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    opacity: 0.95;
+    mask-image:
+        linear-gradient(
+            to bottom,
+            black 65%,
+            transparent 100%
+        );
+        -webkit-mask-image:
+        linear-gradient(
+            to bottom,
+            black 65%,
+            transparent 100%
+        );
+}
+
+.track {
+    display: flex;
+    width: max-content;
+    animation: scroll 20s linear infinite;
+    will-change: transform;
+}
+
+.track img {
+    width: 900px;
+    height: 200px;
+    object-fit: cover;
+    flex-shrink: 0;
+    display: block;
+}
+
+/*
+
+* Como existem 3 imagens,
+* mantemos exatamente o loop original.
+  */
+
+@keyframes scroll {
+    from {
+    transform: translateX(0);
+    }
+
+    to {
+    transform: translateX(-900px);
+    }
+}
+
+/* =====================================
+CONTEÚDO PRINCIPAL
+===================================== */
+
+.welcome-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 150px 24px 40px;
+}
+
+/* =====================================
+CORAÇÃO
+===================================== */
+
+.heart {
+    font-family: Georgia, serif;
+    font-size: 62px;
+    line-height: 1;
+    color: #b84d70;
+    margin-bottom: 12px;
+    animation: heartbeat 2.2s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+}
+
+/* =====================================
+TÍTULO
+===================================== */
+
+h1 {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(36px, 10vw, 54px);
+    font-weight: 500;
+    letter-spacing: -1px;
+    color: #652d40;
+}
+
+/* =====================================
+DIVISOR
+===================================== */
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: min(260px, 70vw);
+    margin: 12px 0 18px;
+}
+
+.divider span {
+    flex: 1;
+    height: 1px;
+    background:
+        linear-gradient(
+            to right,
+            transparent,
+            #c9879b
+        );
+}
+
+.divider span:last-child {
+    background:
+        linear-gradient(
+            to left,
+            transparent,
+            #c9879b
+        );
+}
+
+.divider small {
+    font-family: Georgia, serif;
+    font-size: 13px;
+    color: #a65b73;
+    letter-spacing: 1px;
+}
+
+/* =====================================
+TEXTO
+===================================== */
+
+.welcome-content p {
+    margin: 0 0 28px;
+    font-family: Georgia, serif;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #754456;
+}
+
+/* =====================================
+BOTÃO
+===================================== */
+
+#start-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: min(280px, 80vw);
+    min-height: 56px;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 30px;
+    background:
+        linear-gradient(
+            135deg,
+            #b84d70,
+            #943d5d
+        );
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    box-shadow:
+    0 10px 25px rgba(143, 54, 83, 0.25);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#start-btn:active {
+    transform: scale(0.96);
+    box-shadow: 0 5px 12px rgba(143, 54, 83, 0.2);
+
+}
+
+.camera-icon {
+    font-size: 24px;
+    line-height: 1;
+}
+
+/* =====================================
+TEXTO INFERIOR
+===================================== */
+
+.hint {
+    margin-top: 18px;
+    font-size: 12px;
+    color: #9b6879;
+    letter-spacing: 0.3px;
+}
+
+/* =====================================
+ANIMAÇÃO AO ABRIR A CÂMERA
+===================================== */
+
+#start-screen.hidden {
+    opacity: 0;
+    transform: scale(1.03);
+    pointer-events: none;
+}
+
+/* =====================================
+BOTÃO VOLTAR
+===================================== */
+
+#back-btn {
+    position: fixed;
+    top:
+        max(16px, env(safe-area-inset-top));
+        left: 16px;
+        z-index: 10000;
+        width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid rgba(255,255,255,0.45);
+    border-radius: 50%;
+    background:
+        rgba(80, 25, 43, 0.55);
+        backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: white;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-10px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+#back-btn.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+}
+
+#back-btn span {
+    display: block;
+    margin-top: -4px;
+    font-family: Arial, sans-serif;
+    font-size: 38px;
+    font-weight: 200;
+    line-height: 1;
+}
+
+/* =====================================
+A-FRAME / CÂMERA
+===================================== */
+
+a-scene {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+}
+
+/*
+
+* Impede que elementos do MindAR
+* criem rolagem na página.
+  */
+
+.a-canvas, canvas {
+    width: 100% !important;
+    height: 100% !important;
+    position: fixed !important;
+    inset: 0 !important;
+}
+
+/* =====================================
+CELULARES PEQUENOS
+===================================== */
+
+@media (max-height: 650px) {
+
+    .track img {
+        height: 115px;
+    }
+
+    .welcome-content {
+        padding-top: 120px;
+    }
+
+    .heart {
+        font-size: 48px;
+        margin-bottom: 8px;
+    }
+
+    h1 {
+        font-size: 34px;
+    }
+
+    .welcome-content p {
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+}
+
+/* =====================================
+CELULARES MUITO ESTREITOS
+===================================== */
+
+@media (max-width: 360px) {
+
+    .welcome-content {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .heart {
+        font-size: 50px;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    .welcome-content p {
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+  <title>Álbum Mágico</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+</head>
+
+<body>
+  <div id="start-screen">
+    <div class="marquee">
+      <div class="track">
+        <img src="carrossel.png" alt="">
+        <img src="carrossel.png" alt="">
+        <img src="carrossel.png" alt="">
+        <img src="carrossel.png" alt="">
+      </div>
+    </div>
+
+    <div class="welcome-content">
+      <div class="heart">♡</div>
+
+      <h1>Álbum Mágico</h1>
+
+      <div class="divider">
+        <span></span>
+        <small>para você</small>
+        <span></span>
+      </div>
+
+      <p>
+        Algumas memórias merecem<br>
+        ganhar vida.
+      </p>
+
+      <button id="start-btn">
+        <span class="camera-icon">⌾</span>
+        <span>Começar</span>
+      </button>
+
+      <div class="hint">
+        Aponte sua câmera para uma das fotos
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================
+      BOTÃO VOLTAR
+  ================================= -->
+  <button id="back-btn" aria-label="Voltar">
+    <span>‹</span>
+  </button>
+
+  <!-- ================================
+      EXPERIÊNCIA AR
+  ================================= -->
+  <a-scene mindar-image="imageTargetSrc: ./targets.mind; autoStart: false; uiScanning: yes;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+
+    <a-assets>
+      <video id="vid-0" src="./video-0.mp4" preload="auto" loop playsinline webkit-playsinline></video>
+
+      <video id="vid-1" src="./video-1.mp4" preload="auto" loop playsinline webkit-playsinline></video>
+
+      <video id="vid-2" src="./video-2.mp4" preload="auto" loop playsinline webkit-playsinline></video>
+    </a-assets>
+
+    <a-camera position="0 0 0" look-controls="enabled: false"> </a-camera>
+
+    <!-- FOTO 0 -->
+    <a-entity class="ar-target" mindar-image-target="targetIndex: 0" data-video="vid-0">
+      <a-plane src="#vid-0" position="0 0 0" height="1" width="1"> </a-plane>
+    </a-entity>
+
+    <!-- FOTO 1 -->
+    <a-entity class="ar-target" mindar-image-target="targetIndex: 1" data-video="vid-1">
+      <a-plane src="#vid-1" position="0 0 0" height="0.75" width="1"> </a-plane>
+    </a-entity>
+
+    <!-- FOTO 2 -->
+    <a-entity class="ar-target" mindar-image-target="targetIndex: 2" data-video="vid-2">
+      <a-plane src="#vid-2" position="0 0 0" height="1" width="1"> </a-plane>
+    </a-entity>
+  </a-scene>
+
+  <script>
+    const startScreen = document.getElementById('start-screen');
+    const startBtn = document.getElementById('start-btn');
+    const backBtn = document.getElementById('back-btn');
+    const sceneEl = document.querySelector('a-scene');
+    const targets = document.querySelectorAll('.ar-target');
+    const videos = document.querySelectorAll('video');
+    let cameraStarted = false;
+
+    startBtn.addEventListener('click', async () => {
+      startScreen.classList.add('hidden');
+      setTimeout(() => {
+        startScreen.style.display = 'none';
+      }, 500);
+      backBtn.classList.add('visible');
+      videos.forEach(video => {
+        video.load();
+      });
+      cameraStarted = true;
+      await sceneEl.systems['mindar-image-system'].start();
+    });
+
+    /*
+    * BOTÃO VOLTAR
+    */
+    backBtn.addEventListener('click', async () => {
+      if (!cameraStarted) {
+        return;
+      }
+      try {
+        sceneEl.systems['mindar-image-system'].stop();
+      } catch (error) {
+        console.log(error);
+      }
+      // Para todos os vídeos
+      videos.forEach(video => {
+        video.pause();
+        video.currentTime = 0;
+      });
+      cameraStarted = false;
+      // Esconde botão
+      backBtn.classList.remove('visible');
+      // Volta para tela inicial
+      startScreen.style.display = 'flex';
+      requestAnimationFrame(() => {
+        startScreen.classList.remove('hidden');
+      });
+    });
+
+    /*
+    * CONTROLE DOS VÍDEOS
+    */
+    targets.forEach(target => {
+      const videoId = target.getAttribute('data-video');
+      const video = document.getElementById(videoId);
+      target.addEventListener('targetFound', () => {
+        video.play().catch(error => {
+          console.log('Não foi possível iniciar o vídeo:', error);
+        });
+      });
+      target.addEventListener('targetLost', () => {
+        video.pause();
+        video.currentTime = 0;
+      });
+    });
+  </script>
+</body>
+</html>
