@@ -413,3 +413,25 @@ CELULARES MUITO ESTREITOS
         font-size: 16px;
     }
 }
+
+
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff; /* Altere para combinar com a cor do seu start-screen */
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#loading-progress {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 15px;
+  color: #ff4b5c;
+}
