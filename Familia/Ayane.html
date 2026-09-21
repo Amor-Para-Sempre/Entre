@@ -1,335 +1,911 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
-<head>
+
+  <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
-  <title>Álbum Mágico</title>
-  <link rel="stylesheet" href="./style.css">
-  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-</head>
+    <title>Álbum Mágico</title>
 
-<body>
-  <div id="start-screen">
-    <div class="marquee">
-      <div class="track">
-        <img src="carrossel.png" alt="">
-        <img src="carrossel.png" alt="">
-        <img src="carrossel.png" alt="">
-        <img src="carrossel.png" alt="">
+    <link rel="stylesheet" href="./style.css">
+
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  </head>
+
+  <body>
+    <!-- ================================
+         TELA INICIAL
+    ================================= -->
+    <div id="start-screen">
+
+      <div class="marquee">
+        <div class="track">
+          <img src="carrossel.png" alt>
+          <img src="carrossel.png" alt>
+          <img src="carrossel.png" alt>
+          <img src="carrossel.png" alt>
+        </div>
+      </div>
+
+      <div class="welcome-content">
+
+        <div class="heart">♡</div>
+
+        <h1>Álbum Mágico</h1>
+
+        <div class="divider">
+          <span></span>
+          <small>para você</small>
+          <span></span>
+        </div>
+
+        <p>
+          Algumas memórias merecem<br>
+          ganhar vida.
+        </p>
+
+        <button id="start-btn">
+          <span class="camera-icon">⌾</span>
+          <span>Começar</span>
+        </button>
+
+        <div class="hint">
+          Aponte sua câmera para uma das fotos
+        </div>
+
       </div>
     </div>
 
-    <div class="welcome-content">
-      <div class="heart">♡</div>
+    <!-- ================================
+         TELA DE CARREGAMENTO
+         Agora utilizada somente quando
+         um vídeo específico está carregando.
+    ================================= -->
+    <div id="loading-screen" style="display: none;">
 
-      <h1>Álbum Mágico</h1>
+      <div class="welcome-content">
 
-      <div class="divider">
-        <span></span>
-        <small>para você</small>
-        <span></span>
+        <div class="heart">♡</div>
+
+        <h2>Carregando vídeo...</h2>
+
+        <p id="loading-progress">
+          Aguarde um instante...
+        </p>
+
       </div>
 
-      <p>
-        Algumas memórias merecem<br>
-        ganhar vida.
-      </p>
-
-      <button id="start-btn">
-        <span class="camera-icon">⌾</span>
-        <span>Começar</span>
-      </button>
-
-      <div class="hint">
-        Aponte sua câmera para uma das fotos
-      </div>
     </div>
-  </div>
 
-  <!-- ================================
-      TELA DE CARREGAMENTO
-  ================================= -->
-  <div id="loading-screen" style="display: none;">
-    <div class="welcome-content">
-      <div class="heart">♡</div>
-      <h2>Carregando Experiência...</h2>
-      <p id="loading-progress">0%</p>
-    </div>
-  </div>
+    <!-- ================================
+         BOTÃO VOLTAR
+    ================================= -->
+    <button id="back-btn" aria-label="Voltar">
+      <span>‹</span>
+    </button>
 
-  <!-- ================================
-      BOTÃO VOLTAR
-  ================================= -->
-  <button id="back-btn" aria-label="Voltar">
-    <span>‹</span>
-  </button>
+    <!-- ================================
+         EXPERIÊNCIA AR
+    ================================= -->
+    <a-scene
+      mindar-image="
+            imageTargetSrc: ./targets.mind;
+            autoStart: false;
+            uiScanning: yes;
+        "
+      color-space="sRGB"
+      renderer="colorManagement: true, physicallyCorrectLights"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false">
 
-  <!-- ================================
-      EXPERIÊNCIA AR
-  ================================= -->
-  <a-scene mindar-image="imageTargetSrc: ./targets.mind; autoStart: false; uiScanning: yes;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      <a-assets>
 
-    <a-assets>
-      <video id="vid-1" src="./videos/video_1.mp4" preload="auto" loop playsinline webkit-playsinline></video>
+        <!--
+                IMPORTANTE:
+                Os vídeos NÃO possuem mais src aqui.
 
-      <video id="vid-2" src="./videos/video_2.mp4" preload="auto" loop playsinline webkit-playsinline></video>
-      
-      <video id="vid-3" src="./videos/video_3.mp4" preload="auto" loop playsinline webkit-playsinline></video>
-    
-      <video id="vid-4" src="./videos/video_4.mp4" preload="auto" loop playsinline webkit-playsinline></video>
+                Eles serão carregados somente quando
+                a imagem correspondente for detectada.
+            -->
 
-      <video id="vid-5" src="./videos/video_5.mp4" preload="auto" loop playsinline webkit-playsinline></video>
+        <video
+          id="vid-1"
+          data-src="./videos/video_1.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-      <video id="vid-6" src="./videos/video_6.mp4" preload="auto" loop playsinline webkit-playsinline></video>
+        <video
+          id="vid-2"
+          data-src="./videos/video_2.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-      <video id="vid-7" src="./videos/video_7.mp4" preload="auto" loop playsinline webkit-playsinline></video>
-      
-      <video id="vid-8" src="./videos/video_8.mp4" preload="auto" loop playsinline webkit-playsinline></video>
-    
-      <video id="vid-9" src="./videos/video_9.mp4" preload="auto" loop playsinline webkit-playsinline></video>
+        <video
+          id="vid-3"
+          data-src="./videos/video_3.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-      <video id="vid-10" src="./videos/video_10.mp4" preload="auto" loop playsinline webkit-playsinline></video>
-      
-      <video id="vid-11" src="./videos/video_11.mp4" preload="auto" loop playsinline webkit-playsinline></video>
+        <video
+          id="vid-4"
+          data-src="./videos/video_4.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-      <video id="vid-12" src="./videos/video_12.mp4" preload="auto" loop playsinline webkit-playsinline></video>
-      
-      <video id="vid-13" src="./videos/video_13.mp4" preload="auto" loop playsinline webkit-playsinline></video>
+        <video
+          id="vid-5"
+          data-src="./videos/video_5.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-      <video id="vid-14" src="./videos/video_14.mp4" preload="auto" loop playsinline webkit-playsinline></video>
-      
-      <video id="vid-15" src="./videos/video_15.mp4" preload="auto" loop playsinline webkit-playsinline></video>
+        <video
+          id="vid-6"
+          data-src="./videos/video_6.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-      <video id="vid-16" src="./videos/video_16.mp4" preload="auto" loop playsinline webkit-playsinline></video>
-      
-      <video id="vid-17" src="./videos/video_17.mp4" preload="auto" loop playsinline webkit-playsinline></video>
+        <video
+          id="vid-7"
+          data-src="./videos/video_7.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-      <video id="vid-18" src="./videos/video_18.mp4" preload="auto" loop playsinline webkit-playsinline></video>
-      
-      <video id="vid-19" src="./videos/video_19.mp4" preload="auto" loop playsinline webkit-playsinline></video>
+        <video
+          id="vid-8"
+          data-src="./videos/video_8.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-      <video id="vid-20" src="./videos/video_20.mp4" preload="auto" loop playsinline webkit-playsinline></video>
-      
-      <video id="vid-21" src="./videos/video_21.mp4" preload="auto" loop playsinline webkit-playsinline></video>
-    </a-assets>
+        <video
+          id="vid-9"
+          data-src="./videos/video_9.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-    <a-camera position="0 0 0" look-controls="enabled: false"> </a-camera>
+        <video
+          id="vid-10"
+          data-src="./videos/video_10.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-    <!-- FOTO 0 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 0" data-video="vid-0">
-      <a-plane src="#vid-1" position="0 0 0" height="1.75" width="1"> </a-plane>
-    </a-entity>
+        <video
+          id="vid-11"
+          data-src="./videos/video_11.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-    <!-- FOTO 1 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 1" data-video="vid-1">
-      <a-plane src="#vid-2" position="0 0 0" height="0.75" width="1"> </a-plane>
-    </a-entity>
+        <video
+          id="vid-12"
+          data-src="./videos/video_12.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-    <!-- FOTO 2 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 2" data-video="vid-2">
-      <a-plane src="#vid-3" position="0 0 0" height="1" width="1"> </a-plane>
-    </a-entity>
+        <video
+          id="vid-13"
+          data-src="./videos/video_13.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-    <!-- FOTO 3 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 3" data-video="vid-3">
-      <a-plane src="#vid-4" position="0 0 0" height="1.60" width="1"> </a-plane>
-    </a-entity>
+        <video
+          id="vid-14"
+          data-src="./videos/video_14.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-    <!-- FOTO 4 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 4" data-video="vid-4">
-      <a-plane src="#vid-5" position="0 0 0" height="1.7" width="1"> </a-plane>
-    </a-entity>
+        <video
+          id="vid-15"
+          data-src="./videos/video_15.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-    <!-- FOTO 5 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 5" data-video="vid-5">
-      <a-plane src="#vid-6" position="0 0 0" height="1.75" width="1"> </a-plane>
-    </a-entity>
+        <video
+          id="vid-16"
+          data-src="./videos/video_16.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-    <!-- FOTO 6 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 6" data-video="vid-6">
-      <a-plane src="#vid-7" position="0 0 0" height="1.6" width="1"> </a-plane>
-    </a-entity>
+        <video
+          id="vid-17"
+          data-src="./videos/video_17.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-    <!-- FOTO 7 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 7" data-video="vid-7">
-      <a-plane src="#vid-8" position="0 0 0" height="1" width="1"> </a-plane>
-    </a-entity>
+        <video
+          id="vid-18"
+          data-src="./videos/video_18.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-    <!-- FOTO 8 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 8" data-video="vid-8">
-      <a-plane src="#vid-9" position="0 0 0" height="1.3" width="1"> </a-plane>
-    </a-entity>
+        <video
+          id="vid-19"
+          data-src="./videos/video_19.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-    <!-- FOTO 9 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 9" data-video="vid-9">
-      <a-plane src="#vid-10" position="0 0 0" height="1.4" width="1"> </a-plane>
-    </a-entity>
+        <video
+          id="vid-20"
+          data-src="./videos/video_20.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-    <!-- FOTO 10 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 10" data-video="vid-10">
-      <a-plane src="#vid-11" position="0 0 0" height="1.4" width="1"> </a-plane>
-    </a-entity>
+        <video
+          id="vid-21"
+          data-src="./videos/video_21.mp4"
+          preload="none"
+          loop
+          playsinline
+          webkit-playsinline>
+        </video>
 
-    <!-- FOTO 11 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 11" data-video="vid-11">
-      <a-plane src="#vid-12" position="0 0 0" height="1.4" width="1"> </a-plane>
-    </a-entity>
+      </a-assets>
 
-    <!-- FOTO 12 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 12" data-video="vid-12">
-      <a-plane src="#vid-13" position="0 0 0" height="0.75" width="1"> </a-plane>
-    </a-entity>
+      <a-camera
+        position="0 0 0"
+        look-controls="enabled: false">
+      </a-camera>
 
-    <!-- FOTO 13 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 13" data-video="vid-13">
-      <a-plane src="#vid-14" position="0 0 0" height="0.75" width="1"> </a-plane>
-    </a-entity>
+      <!-- FOTO 0 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 0"
+        data-video="vid-1">
+        <a-plane
+          src="#vid-1"
+          position="0 0 0"
+          height="1.75"
+          width="1">
+        </a-plane>
+      </a-entity>
 
-    <!-- FOTO 14 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 14" data-video="vid-14">
-      <a-plane src="#vid-15" position="0 0 0" height="1.5" width="1"> </a-plane>
-    </a-entity>
+      <!-- FOTO 1 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 1"
+        data-video="vid-2">
+        <a-plane
+          src="#vid-2"
+          position="0 0 0"
+          height="0.75"
+          width="1">
+        </a-plane>
+      </a-entity>
 
-    <!-- FOTO 15 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 15" data-video="vid-15">
-      <a-plane src="#vid-16" position="0 0 0" height="1.5" width="1"> </a-plane>
-    </a-entity>
+      <!-- FOTO 2 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 2"
+        data-video="vid-3">
+        <a-plane
+          src="#vid-3"
+          position="0 0 0"
+          height="1"
+          width="1">
+        </a-plane>
+      </a-entity>
 
-    <!-- FOTO 16 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 16" data-video="vid-16">
-      <a-plane src="#vid-17" position="0 0 0" height="1.6" width="1"> </a-plane>
-    </a-entity>
+      <!-- FOTO 3 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 3"
+        data-video="vid-4">
+        <a-plane
+          src="#vid-4"
+          position="0 0 0"
+          height="1.60"
+          width="1">
+        </a-plane>
+      </a-entity>
 
-    <!-- FOTO 17 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 17" data-video="vid-17">
-      <a-plane src="#vid-18" position="0 0 0" height="0.8" width="1"> </a-plane>
-    </a-entity>
+      <!-- FOTO 4 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 4"
+        data-video="vid-5">
+        <a-plane
+          src="#vid-5"
+          position="0 0 0"
+          height="1.7"
+          width="1">
+        </a-plane>
+      </a-entity>
 
-    <!-- FOTO 18 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 18" data-video="vid-18">
-      <a-plane src="#vid-19" position="0 0 0" height="0.75" width="1"> </a-plane>
-    </a-entity>
+      <!-- FOTO 5 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 5"
+        data-video="vid-6">
+        <a-plane
+          src="#vid-6"
+          position="0 0 0"
+          height="1.75"
+          width="1">
+        </a-plane>
+      </a-entity>
 
-    <!-- FOTO 19 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 19" data-video="vid-19">
-      <a-plane src="#vid-20" position="0 0 0" height="0.75" width="1"> </a-plane>
-    </a-entity>
+      <!-- FOTO 6 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 6"
+        data-video="vid-7">
+        <a-plane
+          src="#vid-7"
+          position="0 0 0"
+          height="1.6"
+          width="1">
+        </a-plane>
+      </a-entity>
 
-    <!-- FOTO 20 -->
-    <a-entity class="ar-target" mindar-image-target="targetIndex: 20" data-video="vid-20">
-      <a-plane src="#vid-21" position="0 0 0" height="0.75" width="1"> </a-plane>
-    </a-entity>
-  </a-scene>
+      <!-- FOTO 7 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 7"
+        data-video="vid-8">
+        <a-plane
+          src="#vid-8"
+          position="0 0 0"
+          height="1"
+          width="1">
+        </a-plane>
+      </a-entity>
 
+      <!-- FOTO 8 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 8"
+        data-video="vid-9">
+        <a-plane
+          src="#vid-9"
+          position="0 0 0"
+          height="1.3"
+          width="1">
+        </a-plane>
+      </a-entity>
 
+      <!-- FOTO 9 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 9"
+        data-video="vid-10">
+        <a-plane
+          src="#vid-10"
+          position="0 0 0"
+          height="1.4"
+          width="1">
+        </a-plane>
+      </a-entity>
 
+      <!-- FOTO 10 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 10"
+        data-video="vid-11">
+        <a-plane
+          src="#vid-11"
+          position="0 0 0"
+          height="1.4"
+          width="1">
+        </a-plane>
+      </a-entity>
 
+      <!-- FOTO 11 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 11"
+        data-video="vid-12">
+        <a-plane
+          src="#vid-12"
+          position="0 0 0"
+          height="1.4"
+          width="1">
+        </a-plane>
+      </a-entity>
 
-  <script>
-    const startScreen = document.getElementById('start-screen');
-    const loadingScreen = document.getElementById('loading-screen');
-    const loadingProgress = document.getElementById('loading-progress');
-    const startBtn = document.getElementById('start-btn');
-    const backBtn = document.getElementById('back-btn');
-    const sceneEl = document.querySelector('a-scene');
-    const targets = document.querySelectorAll('.ar-target');
-    const videos = document.querySelectorAll('video');
-    let cameraStarted = false;
+      <!-- FOTO 12 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 12"
+        data-video="vid-13">
+        <a-plane
+          src="#vid-13"
+          position="0 0 0"
+          height="0.75"
+          width="1">
+        </a-plane>
+      </a-entity>
 
-    // Pré-carrega e monitora o progresso dos vídeos
-    let loadedVideos = 0;
-    const totalVideos = videos.length;
+      <!-- FOTO 13 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 13"
+        data-video="vid-14">
+        <a-plane
+          src="#vid-14"
+          position="0 0 0"
+          height="0.75"
+          width="1">
+        </a-plane>
+      </a-entity>
 
-    function updateLoadingProgress() {
-      loadedVideos++;
-      const percent = Math.round((loadedVideos / totalVideos) * 100);
-      loadingProgress.textContent = `${percent}%`;
+      <!-- FOTO 14 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 14"
+        data-video="vid-15">
+        <a-plane
+          src="#vid-15"
+          position="0 0 0"
+          height="1.5"
+          width="1">
+        </a-plane>
+      </a-entity>
 
-      if (loadedVideos === totalVideos) {
-        loadingScreen.style.display = 'none';
-        startScreen.style.display = 'flex';
-      }
-    }
+      <!-- FOTO 15 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 15"
+        data-video="vid-16">
+        <a-plane
+          src="#vid-16"
+          position="0 0 0"
+          height="1.5"
+          width="1">
+        </a-plane>
+      </a-entity>
 
-    // Iniciar pré-carregamento assim que a página carregar
-    window.addEventListener('DOMContentLoaded', () => {
-      loadingScreen.style.display = 'flex';
-      
-      videos.forEach(video => {
-        // Se o vídeo já estiver cacheado ou pronto
-        if (video.readyState >= 3) {
-          updateLoadingProgress();
-        } else {
-          video.addEventListener('canplaythrough', updateLoadingProgress, { once: true });
-          // Fallback caso demore muito ou dê erro em algum vídeo específico
-          video.addEventListener('error', updateLoadingProgress, { once: true });
-          video.load();
+      <!-- FOTO 16 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 16"
+        data-video="vid-17">
+        <a-plane
+          src="#vid-17"
+          position="0 0 0"
+          height="1.6"
+          width="1">
+        </a-plane>
+      </a-entity>
+
+      <!-- FOTO 17 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 17"
+        data-video="vid-18">
+        <a-plane
+          src="#vid-18"
+          position="0 0 0"
+          height="0.8"
+          width="1">
+        </a-plane>
+      </a-entity>
+
+      <!-- FOTO 18 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 18"
+        data-video="vid-19">
+        <a-plane
+          src="#vid-19"
+          position="0 0 0"
+          height="0.75"
+          width="1">
+        </a-plane>
+      </a-entity>
+
+      <!-- FOTO 19 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 19"
+        data-video="vid-20">
+        <a-plane
+          src="#vid-20"
+          position="0 0 0"
+          height="0.75"
+          width="1">
+        </a-plane>
+      </a-entity>
+
+      <!-- FOTO 20 -->
+      <a-entity
+        class="ar-target"
+        mindar-image-target="targetIndex: 20"
+        data-video="vid-21">
+        <a-plane
+          src="#vid-21"
+          position="0 0 0"
+          height="0.75"
+          width="1">
+        </a-plane>
+      </a-entity>
+    </a-scene>
+
+    <script>
+        /*
+        ============================================================
+        ELEMENTOS
+        ============================================================
+        */
+        const startScreen = document.getElementById('start-screen');
+        const loadingScreen = document.getElementById('loading-screen');
+        const loadingProgress = document.getElementById('loading-progress');
+        const startBtn = document.getElementById('start-btn');
+        const backBtn = document.getElementById('back-btn');
+        const sceneEl = document.querySelector('a-scene');
+
+        const targets = document.querySelectorAll('.ar-target');
+        const videos = document.querySelectorAll('video');
+
+        let cameraStarted = false;
+        let currentVideo = null;
+
+        /*
+        ============================================================
+        FUNÇÕES AUXILIARES
+        ============================================================
+        */
+        function showLoading(message = 'Carregando vídeo...') {
+            loadingProgress.textContent = message;
+            loadingScreen.style.display = 'flex';
         }
-      });
-      
-      // Caso haja poucos vídeos ou cache rápido
-      if (totalVideos === 0) {
-        loadingScreen.style.display = 'none';
-        startScreen.style.display = 'flex';
-      }
-    });
 
-    startBtn.addEventListener('click', async () => {
-      startScreen.classList.add('hidden');
-      setTimeout(() => {
-        startScreen.style.display = 'none';
-      }, 500);
-      backBtn.classList.add('visible');
-      cameraStarted = true;
-      await sceneEl.systems['mindar-image-system'].start();
-    });
+        function hideLoading() {
+            loadingScreen.style.display = 'none';
+        }
 
-    /*
-    * BOTÃO VOLTAR
-    */
-    backBtn.addEventListener('click', async () => {
-      if (!cameraStarted) {
-        return;
-      }
-      try {
-        sceneEl.systems['mindar-image-system'].stop();
-      } catch (error) {
-        console.log(error);
-      }
-      // Para todos os vídeos
-      videos.forEach(video => {
-        video.pause();
-        video.currentTime = 0;
-      });
-      cameraStarted = false;
-      // Esconde botão
-      backBtn.classList.remove('visible');
-      // Volta para tela inicial
-      startScreen.style.display = 'flex';
-      requestAnimationFrame(() => {
-        startScreen.classList.remove('hidden');
-      });
-    });
+        /*
+        ============================================================
+        CARREGAMENTO DE VÍDEO
+        ============================================================
+        O vídeo só recebe o src quando realmente necessário.
+        Isso evita baixar os 21 vídeos na abertura da página.
+        */
 
-    /*
-    * CONTROLE DOS VÍDEOS
-    */
-    targets.forEach(target => {
-      const videoId = target.getAttribute('data-video');
-      const video = document.getElementById(videoId);
-      target.addEventListener('targetFound', () => {
-        video.play().catch(error => {
-          console.log('Não foi possível iniciar o vídeo:', error);
+        function loadVideo(video) {
+            return new Promise((resolve, reject) => {
+                // Já foi carregado anteriormente
+                if (video.dataset.loaded === 'true') {
+                    resolve();
+                    return;
+                }
+
+                // Evita iniciar dois carregamentos simultâneos
+                if (video.dataset.loading === 'true') {
+                    const waitForLoad = () => {
+                        if (video.dataset.loaded === 'true') {
+                            video.removeEventListener('canplay', waitForLoad);
+                            video.removeEventListener('error', waitForError);
+                            resolve();
+                        }
+                    };
+
+                    const waitForError = () => {
+                        video.removeEventListener('canplay', waitForLoad);
+                        video.removeEventListener('error', waitForError);
+                        reject(new Error('Erro ao carregar vídeo.'));
+                    };
+
+                    video.addEventListener('canplay', waitForLoad);
+                    video.addEventListener('error', waitForError);
+                    return;
+                }
+
+                video.dataset.loading = 'true';
+                const src = video.dataset.src;
+                if (!src) {
+                    reject(new Error('URL do vídeo não encontrada.'));
+                    return;
+                }
+
+                const onCanPlay = () => {
+                    cleanup();
+                    video.dataset.loaded = 'true';
+                    video.dataset.loading = 'false';
+                    resolve();
+                };
+
+                const onError = () => {
+                    cleanup();
+                    video.dataset.loading = 'false';
+                    reject(new Error(`Não foi possível carregar ${src}`));
+                };
+
+                const cleanup = () => {
+                    video.removeEventListener('canplay', onCanPlay);
+                    video.removeEventListener('error', onError);
+                };
+
+                video.addEventListener('canplay', onCanPlay);
+                video.addEventListener('error', onError);
+
+                // Só agora o navegador começa a buscar o arquivo
+                video.src = src;
+                video.load();
+            });
+        }
+
+        /*
+        ============================================================
+        PARAR OUTROS VÍDEOS
+        ============================================================
+        */
+        function stopOtherVideos(exceptVideo) {
+            videos.forEach(video => {
+                if (video !== exceptVideo) {
+                    video.pause();
+                }
+            });
+        }
+
+        /*
+        ============================================================
+        PRÉ-CARREGAR PRÓXIMO VÍDEO
+        ============================================================
+
+        Depois que um vídeo é encontrado, tentamos preparar o
+        próximo. Assim a navegação pelo álbum fica mais rápida,
+        sem carregar todos os 21 vídeos.
+        */
+
+        function preloadNextVideo(currentTargetIndex) {
+            const nextTargetIndex = currentTargetIndex + 1;
+            if (nextTargetIndex >= targets.length) {
+                return;
+            }
+            const nextTarget = targets[nextTargetIndex];
+            const nextVideoId = nextTarget.getAttribute('data-video');
+            const nextVideo = document.getElementById(nextVideoId);
+            if (!nextVideo) {
+                return;
+            }
+
+            // Se já estiver carregado, não fazemos nada
+            if (nextVideo.dataset.loaded === 'true') {
+                return;
+            }
+
+            // Carrega de forma silenciosa
+            loadVideo(nextVideo).catch(error => {
+                console.log(
+                    'Não foi possível pré-carregar o próximo vídeo:',
+                    error
+                );
+            });
+        }
+
+        /*
+        ============================================================
+        INICIALIZAÇÃO DA PÁGINA
+        ============================================================
+        Não existe mais pré-carregamento dos 21 vídeos.
+        A tela inicial aparece imediatamente.
+        */
+        window.addEventListener('DOMContentLoaded', () => {
+            hideLoading();
         });
-      });
-      target.addEventListener('targetLost', () => {
-        video.pause();
-        video.currentTime = 0;
-      });
-    });
-  </script>
-</body>
+
+        /*
+        ============================================================
+        BOTÃO COMEÇAR
+        ============================================================
+        */
+        startBtn.addEventListener('click', async () => {
+            startScreen.classList.add('hidden');
+            setTimeout(() => {
+                startScreen.style.display = 'none';
+            }, 500);
+
+            backBtn.classList.add('visible');
+            cameraStarted = true;
+
+            try {
+                await sceneEl.systems['mindar-image-system'].start();
+            } catch (error) {
+                console.error(
+                    'Não foi possível iniciar a câmera:',
+                    error
+                );
+            }
+        });
+
+        /*
+        ============================================================
+        BOTÃO VOLTAR
+        ============================================================
+        */
+        backBtn.addEventListener('click', async () => {
+            if (!cameraStarted) {
+                return;
+            }
+
+            try {
+                sceneEl.systems['mindar-image-system'].stop();
+            } catch (error) {
+                console.log(
+                    'Erro ao parar a câmera:',
+                    error
+                );
+            }
+
+            // Para todos os vídeos
+            videos.forEach(video => {
+                video.pause();
+            });
+
+            currentVideo = null;
+            cameraStarted = false;
+            backBtn.classList.remove('visible');
+
+            startScreen.style.display = 'flex';
+
+            requestAnimationFrame(() => {
+                startScreen.classList.remove('hidden');
+            });
+        });
+
+        /*
+        ============================================================
+        CONTROLE DOS VÍDEOS
+        ============================================================
+        */
+        targets.forEach((target, targetIndex) => {
+            const videoId = target.getAttribute('data-video');
+            const video = document.getElementById(videoId);
+            if (!video) {
+                console.error(
+                    `Vídeo ${videoId} não encontrado para o target ${targetIndex}`
+                );
+                return;
+            }
+
+            /*
+            --------------------------------------------------------
+            FOTO ENCONTRADA
+            --------------------------------------------------------
+            */
+            target.addEventListener('targetFound', async () => {
+                console.log(
+                    `Foto ${targetIndex + 1} encontrada. Vídeo: ${videoId}`
+                );
+
+                // Para qualquer vídeo anterior
+                stopOtherVideos(video);
+
+                currentVideo = video;
+
+                try {
+                    // Mostra carregamento apenas se necessário
+                    if (video.dataset.loaded !== 'true') {
+                        showLoading('Carregando sua memória...');
+                    }
+
+                    // Carrega somente este vídeo
+                    await loadVideo(video);
+
+                    hideLoading();
+
+                    /*
+                    Evita que um target antigo consiga iniciar
+                    um vídeo depois que outro target já foi encontrado.
+                    */
+                    if (currentVideo !== video) {
+                        return;
+                    }
+
+                    // Começa do início quando a foto é encontrada
+                    video.currentTime = 0;
+
+                    await video.play();
+
+                    /*
+                    Depois que o vídeo atual está funcionando,
+                    prepara apenas o próximo vídeo.
+                    */
+                    preloadNextVideo(targetIndex);
+
+                } catch (error) {
+                    hideLoading();
+                    console.error(
+                        `Erro ao reproduzir ${videoId}:`,
+                        error
+                    );
+                }
+            });
+
+            /*
+            --------------------------------------------------------
+            FOTO PERDIDA
+            --------------------------------------------------------
+            Apenas pausa.
+            NÃO usamos currentTime = 0 aqui.
+            Isso evita que pequenas oscilações do reconhecimento
+            façam o vídeo voltar para o começo.
+            */
+            target.addEventListener('targetLost', () => {
+                console.log(
+                    `Foto ${targetIndex + 1} perdida.`
+                );
+
+                if (currentVideo === video) {
+                    video.pause();
+                }
+            });
+        });
+
+        /*
+        ============================================================
+        ERROS DOS VÍDEOS
+        ============================================================
+        */
+        videos.forEach(video => {
+            video.addEventListener('error', () => {
+                console.error(
+                    'Erro no vídeo:',
+                    video.dataset.src
+                );
+            });
+        });
+    </script>
+  </body>
 </html>
