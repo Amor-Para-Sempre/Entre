@@ -1,6 +1,6 @@
 import subprocess
 
-video = "video_23.mp4"
+video = "video_6.mp4"
 
 input_path = r"C:\Users\santi\OneDrive\Documentos\Entre\Familia\{video}".format(video=video)
 output_path = r"C:\Users\santi\OneDrive\Documentos\Entre\Familia\videos\{video}".format(video=video)
