@@ -1,9 +1,9 @@
 import subprocess
 
-video = "video_22.mp4"
+video = "video_23.mp4"
 
-input_path = r"C:\xampp\htdocs\Projetos\Entre\Familia\{video}".format(video=video)
-output_path = r"C:\xampp\htdocs\Projetos\Entre\Familia\videos\{video}".format(video=video)
+input_path = r"C:\Users\santi\OneDrive\Documentos\Entre\Familia\{video}".format(video=video)
+output_path = r"C:\Users\santi\OneDrive\Documentos\Entre\Familia\videos\{video}".format(video=video)
 
 
 def comprimir_video(input_path, output_path):
